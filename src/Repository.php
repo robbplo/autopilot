@@ -15,8 +15,12 @@ class Repository
 
     public function clone(): void
     {
+        if (file_exists($this->getPath())) {
+            exec('git pull -q --ff-only '. $this->getPath());
+            return;
+        }
         // @allow user to choose where projects are cloned
-        exec("git clone -q $this->repoUrl " . $this->getPath() . " > /dev/null 2>&1");
+        exec("git clone -q $this->repoUrl " . $this->getPath());
     }
 
     public function findFile(string $file): ?string

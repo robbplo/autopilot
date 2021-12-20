@@ -4,7 +4,6 @@ namespace Autopilot\Drivers;
 
 class LaravelDriver extends Driver
 {
-
     public function matches(): bool
     {
         return $this->repository->contains('artisan');
@@ -15,14 +14,16 @@ class LaravelDriver extends Driver
         $this->createEnvFile();
         $this->createDatabase();
         $this->setEnvDatabase();
-
+        $this->installDependencies();
 
         return $this;
     }
 
     public function serve(): Driver
     {
-        exec('php artisan serve');
+        $artisan = $this->repository->getPath('artisan');
+
+        exec("php {$artisan} serve");
 
         return $this;
     }
@@ -51,5 +52,11 @@ class LaravelDriver extends Driver
         $envFile = file_get_contents($path);
         $envFile = str_replace('DB_DATABASE=', 'DB_DATABASE=' . $this->getDatabaseName(), $envFile);
         file_put_contents($path, $envFile);
+    }
+
+    private function installDependencies(): void
+    {
+        $dir = $this->repository->getPath();
+        exec("composer install --working-dir=$dir");
     }
 }
