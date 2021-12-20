@@ -35,10 +35,10 @@ use Symfony\Component\Console\SingleCommandApplication;
 
 
         // @todo allow user to select program
-        //(new TextEditor("code"))->open($repository->getPath());
+        (new TextEditor("code"))->open($repository->getPath());
 
         $driver->setUp();
-        //$driver->serve();
+        $driver->serve();
 
 
         // output arguments and options

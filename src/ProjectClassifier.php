@@ -4,11 +4,13 @@ namespace Autopilot;
 
 use Autopilot\Drivers\DefaultDriver;
 use Autopilot\Drivers\Driver;
+use Autopilot\Drivers\LaravelDriver;
 use Autopilot\Drivers\PhpWebDriver;
 
 class ProjectClassifier
 {
     private static $drivers = [
+        LaravelDriver::class,
         PhpWebDriver::class,
     ];
 
