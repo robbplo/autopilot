@@ -3,6 +3,8 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Autopilot\Repository;
+use Autopilot\ReviewCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,6 +17,9 @@ use Symfony\Component\Console\SingleCommandApplication;
     ->addArgument('foo', InputArgument::OPTIONAL, 'The directory')
     ->addOption('bar', null, InputOption::VALUE_REQUIRED)
     ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $repo = new Repository($input->getFirstArgument());
+
         // output arguments and options
+        echo 'yeet';
     })
     ->run();
