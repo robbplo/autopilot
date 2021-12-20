@@ -3,8 +3,9 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
+use Autopilot\Apps\TextEditor;
+use Autopilot\ProjectClassifier;
 use Autopilot\Repository;
-use Autopilot\ReviewCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,9 +18,29 @@ use Symfony\Component\Console\SingleCommandApplication;
     ->addArgument('foo', InputArgument::OPTIONAL, 'The directory')
     ->addOption('bar', null, InputOption::VALUE_REQUIRED)
     ->setCode(function (InputInterface $input, OutputInterface $output) {
-        $repo = new Repository($input->getFirstArgument());
+
+        $output->writeln("<info>-- Bit Academy Autopilot --</info>");
+
+
+        $output->writeln("Cloning repository...");
+        $repository = new Repository($input->getFirstArgument());
+        $repository->clone();
+
+        $driver = (new ProjectClassifier($repository))->selectDriver();
+        $type = (new ReflectionClass($driver))->getShortName();
+
+        $output->writeln("Identified project type: <options=bold>{$type}</>");
+
+
+
+
+        // @todo allow user to select program
+        //(new TextEditor("code"))->open($repository->getPath());
+
+        $driver->setUp();
+        //$driver->serve();
+
 
         // output arguments and options
-        echo 'yeet';
     })
     ->run();

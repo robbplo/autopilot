@@ -2,7 +2,35 @@
 
 namespace Autopilot\Drivers;
 
-class Driver
-{
+use Autopilot\Repository;
 
+abstract class Driver
+{
+    protected $repository;
+
+    public function __construct(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * Determines if the given repository can be served by this driver.
+     *
+     * @return bool
+     */
+    abstract public function matches(): bool;
+
+    /**
+     * Performs preparations for serving the application.
+     *
+     * @return self
+     */
+    abstract public function setUp(): Driver;
+
+    /**
+     * Serves the application
+     *
+     * @return self
+     */
+    abstract public function serve(): Driver;
 }
