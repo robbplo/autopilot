@@ -1,5 +1,6 @@
 {
     "name": "robbinploeger/autopilot",
+    "version": "0.0.1",
     "description": "Frictionless reviewing for Bit Academy",
     "type": "project",
     "license": "MIT",
