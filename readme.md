@@ -12,13 +12,16 @@ editor. Autopilot handles tedious setup, so you can focus on your review.
 - Php 7.4+
 - MySQL or MariaDB
 
-## Usage
-```
-autopilot <repo_url>
-```
 
 ## Installing
-`composer global require robbplo/autopilot`
+```
+composer global require robbplo/autopilot
+```
+
+## Usage
+```
+autopilot [repo_url]
+```
 
 ## Supported Drivers
 - Php web
@@ -29,7 +32,7 @@ autopilot <repo_url>
 - Expand drivers
   - Php CLI
   - Building your own framework
-- Clean up old projects
+- Clean up repo and side effects
 - Improve CLI feedback: errors and info messages
 - User configuration
   - Preferred editor

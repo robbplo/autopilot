@@ -6,7 +6,7 @@ class LaravelDriver extends Driver
 {
     public function matches(): bool
     {
-        return $this->repository->contains('artisan');
+        return $this->repository->dir()->contains('artisan');
     }
 
     public function setUp(): Driver
@@ -21,7 +21,7 @@ class LaravelDriver extends Driver
 
     public function serve(): Driver
     {
-        $artisan = $this->repository->getPath('artisan');
+        $artisan = $this->repository->dir()->getPath('artisan');
 
         echo passthru("php {$artisan} serve");
 
@@ -30,7 +30,7 @@ class LaravelDriver extends Driver
 
     public function getDatabaseName(): string
     {
-        return basename($this->repository->getPath());
+        return basename($this->repository->dir()->getPath());
     }
 
     private function createDatabase(): void
@@ -41,13 +41,13 @@ class LaravelDriver extends Driver
 
     private function createEnvFile(): void
     {
-        copy($this->repository->getPath('.env.example'), $this->repository->getPath('.env'));
+        copy($this->repository->dir()->getPath('.env.example'), $this->repository->dir()->getPath('.env'));
         exec('php artisan key:generate');
     }
 
     private function setEnvDatabase(): void
     {
-        $path = $this->repository->getPath('.env');
+        $path = $this->repository->dir()->getPath('.env');
 
         $envFile = file_get_contents($path);
         $envFile = str_replace('DB_DATABASE=', 'DB_DATABASE=' . $this->getDatabaseName(), $envFile);
@@ -56,7 +56,7 @@ class LaravelDriver extends Driver
 
     private function installDependencies(): void
     {
-        $dir = $this->repository->getPath();
+        $dir = $this->repository->dir()->getPath();
         exec("composer install -q --working-dir=$dir");
     }
 }

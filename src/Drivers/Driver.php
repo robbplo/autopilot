@@ -6,6 +6,7 @@ use Autopilot\Repository;
 
 abstract class Driver
 {
+    /** @var Repository  */
     protected $repository;
 
     public function __construct(Repository $repository)

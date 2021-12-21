@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 (new SingleCommandApplication())
     ->setName('My Super Command') // Optional
@@ -24,27 +25,27 @@ use Symfony\Component\Console\SingleCommandApplication;
     ->addArgument('foo', InputArgument::OPTIONAL, 'The directory')
     ->addOption('bar', null, InputOption::VALUE_REQUIRED)
     ->setCode(function (InputInterface $input, OutputInterface $output) {
+        $io = new SymfonyStyle($input, $output);
+        $io->title("Bit Academy Autopilot");
 
-        $output->writeln("<info>-- Bit Academy Autopilot --</info>");
-
-
-        $output->writeln("Cloning repository...");
+        $io->writeln("Cloning repository...");
         $repository = new Repository($input->getFirstArgument());
         $repository->clone();
 
         $driver = (new ProjectClassifier($repository))->selectDriver();
         $type = (new ReflectionClass($driver))->getShortName();
 
-        $output->writeln("Identified project type: <options=bold>{$type}</>");
-
-
-
+        $io->writeln("Identified project type: <options=bold>{$type}</>");
 
         // @todo allow user to select program
+        $io->writeln('Opening text editor');
         (new TextEditor("code"))->open($repository->getPath());
 
         $driver->setUp();
+
+        $io->section('Serving application');
         $driver->serve();
+
 
 
         // output arguments and options
