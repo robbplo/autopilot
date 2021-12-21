@@ -1,6 +1,6 @@
 {
     "name": "robbinploeger/autopilot",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Frictionless reviewing for Bit Academy",
     "type": "project",
     "license": "MIT",
@@ -14,6 +14,7 @@
         }
     ],
     "require": {
+        "php": ">=7.4",
         "symfony/console": "^6.0",
         "symfony/filesystem": "^6.0"
     },
@@ -26,5 +27,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "larapack/dd": "^1.1"
-    }
+    },
+    "bin": [
+        "autopilot"
+    ]
 }
