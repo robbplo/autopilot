@@ -22,13 +22,6 @@ abstract class Driver
     abstract public function matches(): bool;
 
     /**
-     * Performs preparations for serving the application.
-     *
-     * @return self
-     */
-    abstract public function setUp(): Driver;
-
-    /**
      * Serves the application
      *
      * @return self

@@ -2,14 +2,27 @@
 
 namespace Autopilot;
 
-use Tests\Drivers\Driver;
+use Autopilot\Tasks\Task;
+use Symfony\Component\Console\Style\OutputStyle;
 
 class Runner
 {
-    private $driver;
+    private $repository;
+    private $output;
 
-    public function __construct(Driver $driver)
+    public function __construct(Repository $repository, OutputStyle $output)
     {
-        $this->driver = $driver;
+        $this->repository = $repository;
+        $this->output = $output;
     }
+
+    public function runTasks(array $tasks)
+    {
+        foreach ($tasks as $taskClass) {
+            /** @var Task $task */
+            $task = new $taskClass($this->repository, $this->output);
+            $task->run();
+        }
+    }
+
 }

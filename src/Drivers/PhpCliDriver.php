@@ -11,11 +11,6 @@ class PhpCliDriver extends Driver
         return $this->finder()->count() > 0;
     }
 
-    public function setUp(): Driver
-    {
-        return $this;
-    }
-
     public function serve(): Driver
     {
         $file = $this->getPrimaryFile();

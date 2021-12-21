@@ -9,11 +9,6 @@ class DefaultDriver extends Driver
         return true;
     }
 
-    public function setUp(): Driver
-    {
-        return $this;
-    }
-
     public function serve(): Driver
     {
         return $this;

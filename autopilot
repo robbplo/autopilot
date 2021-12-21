@@ -9,12 +9,13 @@ foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.p
 }
 
 use Autopilot\Apps\TextEditor;
+use Autopilot\Drivers\Concerns\PerformsSetupTasks;
 use Autopilot\ProjectClassifier;
 use Autopilot\Repository;
+use Autopilot\Runner;
 use Composer\InstalledVersions;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -30,19 +31,24 @@ $version = InstalledVersions::getPrettyVersion('robbin/autopilot');
         $io->title("Autopilot - $version");
 
         $io->writeln("Cloning repository...");
-        $repo = new Repository($input->getFirstArgument());
-        $repo->clone();
 
-        $driver = (new ProjectClassifier($repo))->selectDriver();
+        $repository = new Repository($input->getFirstArgument());
+        $repository->clone();
+
+        $driver = (new ProjectClassifier($repository))->selectDriver();
         $type = (new ReflectionClass($driver))->getShortName();
 
         $io->writeln("Identified project type: <options=bold>{$type}</>");
 
         // @todo allow user to select program
         $io->writeln('Opening text editor');
-        (new TextEditor("code"))->open($repo->dir()->getPath());
+        (new TextEditor("code"))->open($repository->dir()->getPath());
 
-        $driver->setUp();
+        if ($driver instanceof PerformsSetupTasks) {
+            $runner = new Runner($repository, $io);
+            $runner->runTasks($driver->setupTasks());
+        }
+        //$driver->setUp();
 
         $io->section('Serving application');
         $driver->serve();
