@@ -2,6 +2,7 @@
 
 namespace Autopilot;
 
+use CzProject\GitPhp\Git;
 use Symfony\Component\Filesystem\Filesystem;
 
 class Repository
@@ -15,12 +16,15 @@ class Repository
 
     public function clone(): void
     {
+        $git = new Git();
+
+        // @todo allow user to choose where projects are cloned
         if (file_exists($this->getPath())) {
-            exec('git pull -q --ff-only '. $this->getPath());
+            $git->open($this->getPath())->pull($this->repoUrl);
             return;
         }
-        // @allow user to choose where projects are cloned
-        exec("git clone -q $this->repoUrl " . $this->getPath());
+
+        $git->cloneRepository($this->repoUrl, $this->getPath());
     }
 
     public function findFile(string $file): ?string
