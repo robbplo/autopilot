@@ -16,8 +16,7 @@ class PhpWebDriver extends Driver
 
     public function serve(): Driver
     {
-        exec('open localhost:8000/'. $this->getPrimaryFile());
-        exec("php -S localhost:8000");
+        passthru("php -S localhost:8000");
 
         return $this;
     }

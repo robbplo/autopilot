@@ -27,7 +27,7 @@ class Repository
     {
         $files = glob($this->getPath($file));
 
-        if ((new Filesystem())->exists($files)) {
+        if (count($files) > 0 && (new Filesystem())->exists($files[0])) {
             return $files[0];
         }
 

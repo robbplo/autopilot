@@ -15,5 +15,4 @@ class TextEditor
     {
         exec("$this->executable $directory");
     }
-
 }

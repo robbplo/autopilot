@@ -23,7 +23,7 @@ class LaravelDriver extends Driver
     {
         $artisan = $this->repository->getPath('artisan');
 
-        exec("php {$artisan} serve");
+        echo passthru("php {$artisan} serve");
 
         return $this;
     }
@@ -57,6 +57,6 @@ class LaravelDriver extends Driver
     private function installDependencies(): void
     {
         $dir = $this->repository->getPath();
-        exec("composer install --working-dir=$dir");
+        exec("composer install -q --working-dir=$dir");
     }
 }
