@@ -4,7 +4,6 @@
 foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
     if (file_exists($file)) {
         require $file;
-
         break;
     }
 }
@@ -12,6 +11,7 @@ foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.p
 use Autopilot\Apps\TextEditor;
 use Autopilot\ProjectClassifier;
 use Autopilot\Repository;
+use Composer\InstalledVersions;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,14 +19,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+$version = InstalledVersions::getPrettyVersion('robbin/autopilot');
+
 (new SingleCommandApplication())
-    ->setName('My Super Command') // Optional
-    ->setVersion('1.0.0') // Optional
-    ->addArgument('foo', InputArgument::OPTIONAL, 'The directory')
-    ->addOption('bar', null, InputOption::VALUE_REQUIRED)
-    ->setCode(function (InputInterface $input, OutputInterface $output) {
+    ->setName('Autopilot')
+    ->setVersion($version)
+    ->addArgument('repo-url', InputArgument::REQUIRED, 'The URL of repository to review')
+    ->setCode(function (InputInterface $input, OutputInterface $output) use ($version) {
         $io = new SymfonyStyle($input, $output);
-        $io->title("Bit Academy Autopilot");
+        $io->title("Autopilot - $version");
 
         $io->writeln("Cloning repository...");
         $repo = new Repository($input->getFirstArgument());
@@ -45,9 +46,5 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
         $io->section('Serving application');
         $driver->serve();
-
-
-
-        // output arguments and options
     })
     ->run();
