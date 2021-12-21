@@ -24,14 +24,15 @@ autopilot [repo_url]
 ```
 
 ## Supported Drivers
-- Php web
 - Laravel
+- Php web
+- Php cli
 - Default
 
 ## Roadmap
 - Expand drivers
-  - Php CLI
-  - Building your own framework
+  - Building your own framework backend
+  - MySQL
 - Improve CLI feedback: errors and info messages
 - User configuration
   - Preferred editor
