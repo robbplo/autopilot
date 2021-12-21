@@ -1,6 +1,5 @@
 {
     "name": "robbin/autopilot",
-    "version": "0.1.4",
     "description": "Frictionless reviewing for Bit Academy",
     "type": "project",
     "license": "MIT",
@@ -30,6 +29,6 @@
         }
     },
     "bin": [
-        "bin/autopilot"
+        "autopilot"
     ]
 }
