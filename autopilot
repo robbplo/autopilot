@@ -29,17 +29,17 @@ use Symfony\Component\Console\Style\SymfonyStyle;
         $io->title("Bit Academy Autopilot");
 
         $io->writeln("Cloning repository...");
-        $repository = new Repository($input->getFirstArgument());
-        $repository->clone();
+        $repo = new Repository($input->getFirstArgument());
+        $repo->clone();
 
-        $driver = (new ProjectClassifier($repository))->selectDriver();
+        $driver = (new ProjectClassifier($repo))->selectDriver();
         $type = (new ReflectionClass($driver))->getShortName();
 
         $io->writeln("Identified project type: <options=bold>{$type}</>");
 
         // @todo allow user to select program
         $io->writeln('Opening text editor');
-        (new TextEditor("code"))->open($repository->getPath());
+        (new TextEditor("code"))->open($repo->dir()->getPath());
 
         $driver->setUp();
 

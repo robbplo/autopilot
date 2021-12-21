@@ -11,10 +11,12 @@ class LaravelDriver extends Driver
 
     public function setUp(): Driver
     {
+        $this->installDependencies();
         $this->createEnvFile();
+        $this->generateAppKey();
         $this->createDatabase();
         $this->setEnvDatabase();
-        $this->installDependencies();
+        $this->migrateAndSeed();
 
         return $this;
     }
@@ -30,19 +32,22 @@ class LaravelDriver extends Driver
 
     public function getDatabaseName(): string
     {
-        return basename($this->repository->dir()->getPath());
+        return "autopilot";
     }
 
     private function createDatabase(): void
     {
-        // @todo this seems really unsafe :) maybe replace with db drivers
-        exec(sprintf('mysql -q --user=bit_academy --password=bit_academy -e "create database %s" > /dev/null 2>&1', $this->getDatabaseName()));
+        // @todo this seems really unsafe :) maybe replace with proper sql client
+        exec(sprintf(
+            'mysql -q --user=bit_academy --password=bit_academy -e "drop database if exists %s; create database %s" > /dev/null 2>&1',
+            $this->getDatabaseName(),
+            $this->getDatabaseName()
+        ));
     }
 
     private function createEnvFile(): void
     {
         copy($this->repository->dir()->getPath('.env.example'), $this->repository->dir()->getPath('.env'));
-        exec('php artisan key:generate');
     }
 
     private function setEnvDatabase(): void
@@ -50,7 +55,7 @@ class LaravelDriver extends Driver
         $path = $this->repository->dir()->getPath('.env');
 
         $envFile = file_get_contents($path);
-        $envFile = str_replace('DB_DATABASE=', 'DB_DATABASE=' . $this->getDatabaseName(), $envFile);
+        $envFile = preg_replace("/DB_DATABASE=.+/", 'DB_DATABASE=' . $this->getDatabaseName(), $envFile);
         file_put_contents($path, $envFile);
     }
 
@@ -58,5 +63,19 @@ class LaravelDriver extends Driver
     {
         $dir = $this->repository->dir()->getPath();
         exec("composer install -q --working-dir=$dir");
+    }
+
+    private function migrateAndSeed(): void
+    {
+        $artisan = $this->repository->dir()->getPath('artisan');
+
+        exec("php {$artisan} migrate --seed");
+    }
+
+    private function generateAppKey(): void
+    {
+        $artisan = $this->repository->dir()->getPath('artisan');
+
+        passthru("php {$artisan} key:generate");
     }
 }
