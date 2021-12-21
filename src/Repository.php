@@ -3,7 +3,6 @@
 namespace Autopilot;
 
 use CzProject\GitPhp\Git;
-use Symfony\Component\Filesystem\Filesystem;
 
 class Repository
 {

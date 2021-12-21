@@ -2,11 +2,18 @@
 
 namespace Autopilot\Drivers;
 
+use Symfony\Component\Filesystem\Filesystem;
+
 class LaravelDriver extends Driver
 {
     public function matches(): bool
     {
-        return $this->repository->dir()->contains('artisan');
+        if ($this->repository->dir()->contains('artisan')) {
+            return true;
+        }
+
+        // @todo maybe all drivers should attempt subdirectories
+        return $this->attemptMatchInSubdirectory();
     }
 
     public function setUp(): Driver
@@ -77,5 +84,30 @@ class LaravelDriver extends Driver
         $artisan = $this->repository->dir()->getPath('artisan');
 
         passthru("php {$artisan} key:generate");
+    }
+
+    private function attemptMatchInSubdirectory(): bool
+    {
+        $finder = $this->repository->dir()->find()
+            ->depth(1)
+            ->name('artisan');
+
+        if ($finder->count() === 0) {
+            return false;
+        }
+
+        $file = array_values(iterator_to_array($finder))[0];
+        $this->moveSubdirectoryToRoot($file->getPath());
+
+        return true;
+    }
+
+    private function moveSubdirectoryToRoot(string $subdirectory)
+    {
+        $fs = new Filesystem();
+
+        $dir = $this->repository->dir();
+        $fs->rename($subdirectory, $dir->getPath('../temp'), true);
+        $fs->rename($dir->getPath('../temp'), $dir->getPath('../repository'), true);
     }
 }

@@ -4,6 +4,7 @@ namespace Autopilot;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
+use Symfony\Component\Finder\Finder;
 
 class Directory
 {
@@ -31,15 +32,9 @@ class Directory
         return $this->path;
     }
 
-    public function find(string $file): ?string
+    public function find(): Finder
     {
-        $files = glob($this->getPath($file));
-
-        if (count($files) > 0 && $this->fs->exists($files[0])) {
-            return $files[0];
-        }
-
-        return null;
+        return (new Finder())->in($this->getPath());
     }
 
     public function contains(string $file): bool
