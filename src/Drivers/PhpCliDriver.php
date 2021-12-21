@@ -28,7 +28,7 @@ class PhpCliDriver extends Driver
         return $this;
     }
 
-    private function getPrimaryFile(): string
+    protected function getPrimaryFile(): string
     {
         if ($this->repository->dir()->contains('index.php')) {
             return 'index.php';

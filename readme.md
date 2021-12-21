@@ -10,8 +10,10 @@ editor. Autopilot handles tedious setup, so you can focus on your review.
 ## Requirements
 - Composer
 - Php 7.3+
+- Python
 - MySQL or MariaDB
 
+Developed and tested on macOS. Should work on Linux, not sure about Windows.
 
 ## Installing
 ```

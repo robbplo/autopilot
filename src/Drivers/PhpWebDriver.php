@@ -2,7 +2,7 @@
 
 namespace Autopilot\Drivers;
 
-class PhpWebDriver extends Driver
+class PhpWebDriver extends PhpCliDriver
 {
     public function matches(): bool
     {
@@ -21,15 +21,13 @@ class PhpWebDriver extends Driver
                 ->count() > 0;
     }
 
-    public function setUp(): Driver
-    {
-        return $this;
-    }
-
     public function serve(): Driver
     {
-        passthru("php -S localhost:8000");
-        // @todo open browser
+        $url = "localhost:8000";
+        $file = $this->getPrimaryFile();
+        chdir($this->repository->dir()->getPath());
+        exec("python -m webbrowser http://$url/$file");
+        passthru("php -S {$url}");
 
         return $this;
     }
