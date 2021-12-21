@@ -9,7 +9,7 @@ editor. Autopilot handles tedious setup, so you can focus on your review.
 
 ## Requirements
 - Composer
-- Php 7.4+
+- Php 7.3+
 - MySQL or MariaDB
 
 
@@ -32,7 +32,6 @@ autopilot [repo_url]
 - Expand drivers
   - Php CLI
   - Building your own framework
-- Clean up repo and side effects
 - Improve CLI feedback: errors and info messages
 - User configuration
   - Preferred editor
