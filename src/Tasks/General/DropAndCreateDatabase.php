@@ -3,6 +3,7 @@
 namespace Autopilot\Tasks\General;
 
 use Autopilot\Tasks\Task;
+use PDO;
 
 class DropAndCreateDatabase extends Task
 {
@@ -16,11 +17,12 @@ class DropAndCreateDatabase extends Task
 
     public function run()
     {
-        // @todo this seems really unsafe :) maybe replace with proper sql client
-        exec(sprintf(
-            'mysql -q --user=bit_academy --password=bit_academy -e "drop database if exists %s; create database %s" > /dev/null 2>&1',
-            self::DBNAME,
-            self::DBNAME,
-        ));
+        $pdo = new PDO(
+            'mysql:host=localhost',
+            'bit_academy',
+            'bit_academy'
+        );
+        $pdo->exec('drop database if exists ' . self::DBNAME);
+        $pdo->exec('create database ' . self::DBNAME);
     }
 }
