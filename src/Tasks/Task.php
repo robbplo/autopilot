@@ -3,28 +3,23 @@
 namespace Autopilot\Tasks;
 
 use Autopilot\Repository;
-use Symfony\Component\Console\Style\OutputStyle;
 
 abstract class Task
 {
     private $repository;
-    private $output;
 
     abstract public function run();
 
-    public function __construct(Repository $repository, OutputStyle $output)
+    // @todo might only need Directory as dependency
+    public function __construct(Repository $repository)
     {
         $this->repository = $repository;
-        $this->output = $output;
     }
+
+    abstract public function message(): string;
 
     protected function repository(): Repository
     {
         return $this->repository;
-    }
-
-    protected function output(): OutputStyle
-    {
-        return $this->output;
     }
 }

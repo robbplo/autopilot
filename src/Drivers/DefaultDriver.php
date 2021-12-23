@@ -8,9 +8,4 @@ class DefaultDriver extends Driver
     {
         return true;
     }
-
-    public function serve(): Driver
-    {
-        return $this;
-    }
 }

@@ -2,15 +2,18 @@
 
 namespace Autopilot\Tasks\Laravel;
 
-use Autopilot\Tasks\DropAndCreateDatabase;
+use Autopilot\Tasks\General\DropAndCreateDatabase;
 use Autopilot\Tasks\Task;
 
 class CreateEnvFile extends Task
 {
+    public function message(): string
+    {
+        return 'Creating .env file';
+    }
+
     public function run()
     {
-        $this->output()->writeln('Creating .env file');
-
         copy($this->repository()->dir()->getPath('.env.example'), $this->repository()->dir()->getPath('.env'));
 
         $this->replaceValues($this->repository()->dir()->getPath('.env'));
@@ -18,7 +21,8 @@ class CreateEnvFile extends Task
 
     private function replaceValues(string $path): void
     {
-        $this->output()->writeln('Entering environment variables');
+        // @todo split into two tasks
+        //$this->output()->writeln('Entering environment variables');
 
         $envFile = file_get_contents($path);
         $replace = [

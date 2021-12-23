@@ -17,5 +17,4 @@ class PhpCliDriverTest extends DriverTest
 
         $this->assertTrue($driver->matches());
     }
-
 }

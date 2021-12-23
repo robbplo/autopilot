@@ -2,7 +2,10 @@
 
 namespace Autopilot\Drivers;
 
-class PhpWebDriver extends PhpCliDriver
+use Autopilot\Drivers\Concerns\RequiresRunning;
+use Autopilot\Tasks\Php\ServePhp;
+
+class PhpWebDriver extends Driver implements RequiresRunning
 {
     public function matches(): bool
     {
@@ -21,14 +24,11 @@ class PhpWebDriver extends PhpCliDriver
                 ->count() > 0;
     }
 
-    public function serve(): Driver
-    {
-        $url = "localhost:8000";
-        $file = $this->getPrimaryFile();
-        chdir($this->repository->dir()->getPath());
-        exec("python -m webbrowser http://$url/$file");
-        passthru("php -S {$url}");
 
-        return $this;
+    public function runningTasks(): array
+    {
+        return [
+            ServePhp::class,
+        ];
     }
 }

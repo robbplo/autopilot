@@ -4,10 +4,13 @@ namespace Autopilot\Tasks\Laravel;
 
 class MigrateAndSeed extends ArtisanTask
 {
+    public function message(): string
+    {
+        return 'Migrating and seeding database';
+    }
+
     public function run()
     {
-        $this->output()->writeln('Migrating and seeding database');
-
         exec($this->artisan("migrate --seed"));
     }
 }

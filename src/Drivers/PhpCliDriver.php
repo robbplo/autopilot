@@ -2,39 +2,24 @@
 
 namespace Autopilot\Drivers;
 
-use Symfony\Component\Finder\Finder;
+use Autopilot\Drivers\Concerns\RequiresRunning;
+use Autopilot\Tasks\Php\RunFileInCli;
 
-class PhpCliDriver extends Driver
+class PhpCliDriver extends Driver implements RequiresRunning
 {
     public function matches(): bool
     {
         return $this->finder()->count() > 0;
     }
 
-    public function serve(): Driver
+    public function runningTasks(): array
     {
-        $file = $this->getPrimaryFile();
-        $path = $this->repository->dir()->getPath($file);
-        echo "Guessed primary file: $file. Executing..." . PHP_EOL . PHP_EOL;
-
-        chdir($this->repository->dir()->getPath());
-        passthru("php $path");
-
-        return $this;
+        return [
+            RunFileInCli::class,
+        ];
     }
 
-    protected function getPrimaryFile(): string
-    {
-        if ($this->repository->dir()->contains('index.php')) {
-            return 'index.php';
-        }
-
-        foreach ($this->finder() as $file) {
-            return $file->getFilename();
-        }
-    }
-
-    private function finder(): Finder
+    private function finder()
     {
         return $this->repository->dir()->find()
             ->depth(0)

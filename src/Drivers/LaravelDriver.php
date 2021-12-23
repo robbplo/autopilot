@@ -2,15 +2,18 @@
 
 namespace Autopilot\Drivers;
 
-use Autopilot\Drivers\Concerns\PerformsSetupTasks;
-use Autopilot\Tasks\DropAndCreateDatabase;
-use Autopilot\Tasks\InstallComposerDependencies;
+use Autopilot\Drivers\Concerns\RequiresRunning;
+use Autopilot\Drivers\Concerns\RequiresSetup;
+use Autopilot\Tasks\General\DropAndCreateDatabase;
+use Autopilot\Tasks\General\OpenBrowser;
 use Autopilot\Tasks\Laravel\CreateEnvFile;
 use Autopilot\Tasks\Laravel\GenerateAppKey;
 use Autopilot\Tasks\Laravel\MigrateAndSeed;
+use Autopilot\Tasks\Laravel\ServeLaravel;
+use Autopilot\Tasks\Php\InstallComposerDependencies;
 use Symfony\Component\Filesystem\Filesystem;
 
-class LaravelDriver extends Driver implements PerformsSetupTasks
+class LaravelDriver extends Driver implements RequiresSetup, RequiresRunning
 {
     public function matches(): bool
     {
@@ -18,20 +21,16 @@ class LaravelDriver extends Driver implements PerformsSetupTasks
             return true;
         }
 
-        // @todo maybe all drivers should attempt subdirectories
+        // @todo this does not belong in driver
         return $this->attemptMatchInSubdirectory();
     }
 
-
-    public function serve(): Driver
+    public function runningTasks(): array
     {
-        $artisan = $this->repository->dir()->getPath('artisan');
-
-
-        exec("python -m webbrowser http://127.0.0.1:8000");
-        echo passthru("php {$artisan} serve");
-
-        return $this;
+        return [
+            OpenBrowser::class,
+            ServeLaravel::class,
+        ];
     }
 
     public function setupTasks(): array

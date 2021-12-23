@@ -4,9 +4,13 @@ namespace Autopilot\Tasks\Laravel;
 
 class GenerateAppKey extends ArtisanTask
 {
+    public function message(): string
+    {
+        return 'Generating application key';
+    }
+
     public function run()
     {
-        $this->output()->writeln('Generating application key');
         passthru($this->artisan("key:generate"));
     }
 }

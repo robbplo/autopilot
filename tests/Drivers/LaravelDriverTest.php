@@ -4,6 +4,7 @@ namespace Tests\Drivers;
 
 use Autopilot\Drivers\LaravelDriver;
 use Autopilot\Repository;
+use Autopilot\Tasks\Runner;
 
 class LaravelDriverTest extends DriverTest
 {
@@ -31,20 +32,16 @@ class LaravelDriverTest extends DriverTest
     /** @test */
     public function it_sets_up_laravel_application()
     {
-        $this->markTestSkipped('Needs to be changed for task refactor');
-
         $repository = new Repository("https://github.com/robbplo/empty-laravel");
         $repository->clone();
 
         $driver = new LaravelDriver($repository);
-        $driver->setUp();
+
+        $runner = new Runner($repository);
+        $runner->runMany($driver->setupTasks());
 
         $envFile = $repository->dir()->getPath('.env');
         $this->assertFileExists($envFile);
-
-        $databaseInEnv = strpos(file_get_contents($envFile), 'DB_DATABASE=' . $driver->getDatabaseName()) !== false;
-
-        $this->assertTrue($databaseInEnv);
     }
 
 }

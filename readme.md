@@ -34,6 +34,8 @@ autopilot [repo_url]
 ## Roadmap
 - Expand drivers
   - Building your own framework backend
+  - Python
+  - Jupyter notebook
   - MySQL
 - Improve CLI feedback: errors and info messages
 - User configuration

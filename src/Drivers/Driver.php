@@ -20,11 +20,4 @@ abstract class Driver
      * @return bool
      */
     abstract public function matches(): bool;
-
-    /**
-     * Serves the application
-     *
-     * @return self
-     */
-    abstract public function serve(): Driver;
 }

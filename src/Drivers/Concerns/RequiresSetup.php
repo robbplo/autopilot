@@ -2,7 +2,7 @@
 
 namespace Autopilot\Drivers\Concerns;
 
-interface PerformsSetupTasks
+interface RequiresSetup
 {
     /**
      * Tasks required to set up the driver

@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 
-foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php'] as $file) {
     if (file_exists($file)) {
         require $file;
         break;
@@ -9,10 +9,12 @@ foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.p
 }
 
 use Autopilot\Apps\TextEditor;
-use Autopilot\Drivers\Concerns\PerformsSetupTasks;
+use Autopilot\Drivers\Concerns\RequiresRunning;
+use Autopilot\Drivers\Concerns\RequiresSetup;
 use Autopilot\ProjectClassifier;
 use Autopilot\Repository;
-use Autopilot\Runner;
+use Autopilot\Tasks\General\OpenTextEditor;
+use Autopilot\Tasks\Runner;
 use Composer\InstalledVersions;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,17 +42,16 @@ $version = InstalledVersions::getPrettyVersion('robbin/autopilot');
 
         $io->writeln("Identified project type: <options=bold>{$type}</>");
 
-        // @todo allow user to select program
-        $io->writeln('Opening text editor');
-        (new TextEditor("code"))->open($repository->dir()->getPath());
+        $runner = new Runner($repository, $io);
 
-        if ($driver instanceof PerformsSetupTasks) {
-            $runner = new Runner($repository, $io);
-            $runner->runTasks($driver->setupTasks());
+        $runner->run(OpenTextEditor::class);
+
+        if ($driver instanceof RequiresSetup) {
+            $runner->runMany($driver->setupTasks());
         }
-        //$driver->setUp();
 
-        $io->section('Serving application');
-        $driver->serve();
+        if ($driver instanceof RequiresRunning) {
+            $runner->runMany($driver->runningTasks());
+        }
     })
     ->run();
