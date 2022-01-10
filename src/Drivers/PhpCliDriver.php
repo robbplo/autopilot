@@ -3,6 +3,7 @@
 namespace Autopilot\Drivers;
 
 use Autopilot\Drivers\Concerns\RequiresRunning;
+use Autopilot\Tasks\General\ChdirToRepository;
 use Autopilot\Tasks\Php\RunFileInCli;
 
 class PhpCliDriver extends Driver implements RequiresRunning
@@ -15,6 +16,7 @@ class PhpCliDriver extends Driver implements RequiresRunning
     public function runningTasks(): array
     {
         return [
+            ChdirToRepository::class,
             RunFileInCli::class,
         ];
     }

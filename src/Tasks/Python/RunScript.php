@@ -7,7 +7,7 @@ use Autopilot\Tasks\Task;
 
 class RunScript extends Task
 {
-    private $primaryFile;
+    protected $primaryFile;
 
     public function __construct(Repository $repository)
     {
@@ -20,8 +20,6 @@ class RunScript extends Task
     {
         $path = $this->repository()->dir()->getPath($this->primaryFile);
 
-        chdir($this->repository()->dir()->getPath());
-        
         // -u is to prevent input calls from buffering until after the script is executed
         passthru("python -u $path");
     }

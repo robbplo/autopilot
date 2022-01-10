@@ -20,7 +20,6 @@ class RunFileInCli extends Task
     {
         $path = $this->repository()->dir()->getPath($this->primaryFile);
 
-        chdir($this->repository()->dir()->getPath());
         passthru("php $path");
     }
 

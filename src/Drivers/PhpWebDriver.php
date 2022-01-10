@@ -3,6 +3,7 @@
 namespace Autopilot\Drivers;
 
 use Autopilot\Drivers\Concerns\RequiresRunning;
+use Autopilot\Tasks\General\ChdirToRepository;
 use Autopilot\Tasks\Php\ServePhp;
 
 class PhpWebDriver extends Driver implements RequiresRunning
@@ -28,6 +29,7 @@ class PhpWebDriver extends Driver implements RequiresRunning
     public function runningTasks(): array
     {
         return [
+            ChdirToRepository::class,
             ServePhp::class,
         ];
     }

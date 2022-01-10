@@ -8,6 +8,7 @@ use Autopilot\Drivers\LaravelDriver;
 use Autopilot\Drivers\PhpCliDriver;
 use Autopilot\Drivers\PhpWebDriver;
 use Autopilot\Drivers\PythonScriptDriver;
+use Autopilot\Drivers\PythonVirtualEnvDriver;
 
 class ProjectClassifier
 {
@@ -15,6 +16,7 @@ class ProjectClassifier
         LaravelDriver::class,
         PhpWebDriver::class,
         PhpCliDriver::class,
+        PythonVirtualEnvDriver::class,
         PythonScriptDriver::class,
     ];
 

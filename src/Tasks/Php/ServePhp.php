@@ -10,7 +10,6 @@ class ServePhp extends Task
     public function run()
     {
         $url = "localhost:8000";
-        chdir($this->repository()->dir()->getPath());
         exec("python -m webbrowser http://$url");
         passthru("php -S {$url}");
     }
