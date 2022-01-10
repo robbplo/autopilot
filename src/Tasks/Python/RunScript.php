@@ -21,7 +21,9 @@ class RunScript extends Task
         $path = $this->repository()->dir()->getPath($this->primaryFile);
 
         chdir($this->repository()->dir()->getPath());
-        passthru("python $path"); //  @todo does not work with pythons `input` function
+        
+        // -u is to prevent input calls from buffering until after the script is executed
+        passthru("python -u $path");
     }
 
     public function message(): string
