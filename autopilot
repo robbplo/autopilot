@@ -8,7 +8,6 @@ foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', 
     }
 }
 
-use Autopilot\Apps\TextEditor;
 use Autopilot\Drivers\Concerns\RequiresRunning;
 use Autopilot\Drivers\Concerns\RequiresSetup;
 use Autopilot\ProjectClassifier;
