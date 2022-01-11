@@ -28,13 +28,14 @@ autopilot [repo_url]
 ## Supported Drivers
 - Laravel
 - Php web
-- Php cli
+- Php CLI
+- Python
+- Python with requirements.txt
 - Default
 
 ## Roadmap
 - Expand drivers
   - Building your own framework backend
-  - Python
   - Jupyter notebook
   - MySQL
 - Improve CLI feedback: errors and info messages
