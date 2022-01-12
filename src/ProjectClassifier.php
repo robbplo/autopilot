@@ -4,6 +4,7 @@ namespace Autopilot;
 
 use Autopilot\Drivers\DefaultDriver;
 use Autopilot\Drivers\Driver;
+use Autopilot\Drivers\JupyterNotebookDriver;
 use Autopilot\Drivers\LaravelDriver;
 use Autopilot\Drivers\PhpCliDriver;
 use Autopilot\Drivers\PhpWebDriver;
@@ -16,6 +17,7 @@ class ProjectClassifier
         LaravelDriver::class,
         PhpWebDriver::class,
         PhpCliDriver::class,
+        JupyterNotebookDriver::class,
         PythonVirtualEnvDriver::class,
         PythonScriptDriver::class,
     ];
