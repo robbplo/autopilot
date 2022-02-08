@@ -12,8 +12,11 @@ editor. Autopilot handles tedious setup, so you can focus on your review.
 - Php 7.3+
 - Python
 - MySQL or MariaDB
+- Visual Studio Code
 
 Developed and tested on macOS. Should work on Linux, not sure about Windows.
+
+Uses the following MySQL user: `bit_academy // bit_academy`
 
 ## Installing
 ```
@@ -30,13 +33,13 @@ autopilot [repo_url]
 - Php web
 - Php CLI
 - Python
-- Python with requirements.txt
+- Python with virtual environment
+- Jupyter notebook
 - Default
 
 ## Roadmap
 - Expand drivers
   - Building your own framework backend
-  - Jupyter notebook
   - MySQL
 - Improve CLI feedback: errors and info messages
 - User configuration
