@@ -6,6 +6,7 @@ use Autopilot\Drivers\Concerns\RequiresRunning;
 use Autopilot\Drivers\Concerns\RequiresSetup;
 use Autopilot\Tasks\General\ChdirToRepository;
 use Autopilot\Tasks\Python\InstallPythonDependencies;
+use Autopilot\Tasks\Python\PatchRequirementsFile;
 use Autopilot\Tasks\Python\RunJupyterNotebook;
 use Autopilot\Tasks\Python\SetupVirtualEnvironment;
 
@@ -21,6 +22,7 @@ class JupyterNotebookDriver extends Driver implements RequiresSetup, RequiresRun
         return [
             ChdirToRepository::class,
             SetupVirtualEnvironment::class,
+            PatchRequirementsFile::class,
             InstallPythonDependencies::class,
         ];
     }
