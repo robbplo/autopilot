@@ -10,6 +10,7 @@ use Autopilot\Drivers\PhpCliDriver;
 use Autopilot\Drivers\PhpWebDriver;
 use Autopilot\Drivers\PythonScriptDriver;
 use Autopilot\Drivers\PythonVirtualEnvDriver;
+use Autopilot\Drivers\StaticHtmlDriver;
 
 class ProjectClassifier
 {

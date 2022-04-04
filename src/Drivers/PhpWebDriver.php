@@ -20,7 +20,7 @@ class PhpWebDriver extends Driver implements RequiresRunning
         ];
 
         return $this->repository->dir()->find()
-                ->name('*.php')
+                ->name(['*.php', '*.html'])
                 ->contains($patterns)
                 ->count() > 0;
     }
