@@ -1,4 +1,4 @@
-# Autopilot - ALPHA RELEASE
+# 🚀 Autopilot - ALPHA RELEASE
 _Frictionless reviewing_
 
 Autopilot is a CLI tool which automates the project setup required for 
@@ -38,8 +38,9 @@ autopilot [repo_url]
 - Default
 
 ## Roadmap
+- Dockerized services
 - Expand drivers
-  - Building your own framework backend
+  - Building your own framework
   - MySQL
 - Improve CLI feedback: errors and info messages
 - User configuration
